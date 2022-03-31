@@ -39,39 +39,27 @@ class NewsViewAdapter(var c: Context, var itemlist: List<Items>)
         if(position==0) {
             holder.enclosercardview.isVisible = true
             holder.simplecardview.isVisible = false
-            if(item.enclosure != null && item.enclosure.link != null) {
-                val url: String = item.enclosure.link.replace("&amp;", "&")
-                Glide.with(c)
-                    .load(url)
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .into(holder.articleImage)
-            }
-            if(item.pubDate!= null) {
-                holder.articledate.text = convertedDate(item.pubDate)
-                holder.articletime.text = convertedTime(item.pubDate)
-            }
-            if(item.title != null) {
-                holder.articleTitle.text = item.title
-            }
+            val url: String = item.enclosure.link.replace("&amp;", "&")
+            Glide.with(c)
+                .load(url)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_foreground)
+                .into(holder.articleImage)
+            holder.articledate.text = convertedDate(item.pubDate)
+            holder.articletime.text = convertedTime(item.pubDate)
+            holder.articleTitle.text = item.title
         }else{
             holder.enclosercardview.isVisible = false
             holder.simplecardview.isVisible = true
-            if(item.thumbnail != null) {
-                val url: String = item.thumbnail.replace("&amp;", "&")
-                Glide.with(c)
-                    .load(url)
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .into(holder.articleImage2);
-            }
-            if(item.pubDate!= null) {
-                holder.articledate2.text = convertedDate(item.pubDate)
-                holder.articletime2.text = convertedTime(item.pubDate)
-            }
-            if(item.title != null) {
-                holder.articleTitle2.text = item.title
-            }
+            val url: String = item.thumbnail.replace("&amp;", "&")
+            Glide.with(c)
+                .load(url)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_foreground)
+                .into(holder.articleImage2);
+            holder.articledate2.text = convertedDate(item.pubDate)
+            holder.articletime2.text = convertedTime(item.pubDate)
+            holder.articleTitle2.text = item.title
 
         }
         holder.setIsRecyclable(false)
