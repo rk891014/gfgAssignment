@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         if(checkConnection(context)){
             loaddata()
         }else{
-            Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -62,9 +62,9 @@ class MainActivity : AppCompatActivity() {
             if(checkConnection(context)){
                 refreshdata = true;
                 loaddata()
-                Toast.makeText(context, "Page Refreshed Successfully", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Page Refreshed Successfully", Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show()
             }
             itemsswipetorefresh.isRefreshing = false
 
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         prepareadapter(itemlist)
                     }
                 }else{
-                    Toast.makeText(context,"Technical Error",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"Technical Error",Toast.LENGTH_SHORT).show()
                 }
                 refreshdata = false
 
