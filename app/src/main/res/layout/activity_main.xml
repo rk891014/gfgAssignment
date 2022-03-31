@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"/>
 
     <ProgressBar
-        android:id="@+id/wpprogressBar"
+        android:id="@+id/mainprogressBar"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
@@ -35,7 +35,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/newsrecyclerView"
             android:layout_width="match_parent"
             android:background="#C0C0C0"
             android:layout_height="wrap_content"/>

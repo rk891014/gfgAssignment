@@ -7,6 +7,7 @@ object RetrofitHelper {
 
     const val BASE_URL = "https://api.rss2json.com/"
 
+//    func to convert JSON data got from server into java model
     fun getretrofit() : Retrofit{
         return Retrofit.Builder()
             .baseUrl(BASE_URL)

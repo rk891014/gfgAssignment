@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var context : Context
     lateinit var mainviewmodel : MainViewModel
     var refreshdata : Boolean = true;
-    lateinit var wpprogressBar : ProgressBar
+    lateinit var mainprogressBar : ProgressBar
     lateinit var recyclerView : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,17 +35,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         context = this@MainActivity
+
+//        viewModelProvider
         mainviewmodel = ViewModelProvider(this).get(MainViewModel :: class.java)
 
+//        finding ids
         val itemsswipetorefresh = findViewById<SwipeRefreshLayout>(R.id.itemsswipetorefresh)
-        wpprogressBar= findViewById(R.id.wpprogressBar)
-        recyclerView = findViewById(R.id.recyclerView)
+        mainprogressBar= findViewById(R.id.mainprogressBar)
+        recyclerView = findViewById(R.id.newsrecyclerView)
+
+
+
         if(checkConnection(context)){
             loaddata()
         }else{
             Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show()
         }
 
+
+//        implementation pull to refresh
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(this, R.color.teal_200))
         itemsswipetorefresh.setColorSchemeColors(Color.WHITE)
@@ -63,20 +71,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+//    func to call live data and fetch the list
     private fun loaddata() {
 
-        wpprogressBar.isVisible = true
+        mainprogressBar.isVisible = true
 
+
+//     observing data change from viewmodel
         mainviewmodel.getNews()!!.observe(this, Observer { Newslist ->
 
             if(refreshdata){
-                wpprogressBar.isVisible = false
-
+                mainprogressBar.isVisible = false
 
                 if(Newslist.status == "ok"){
                     val itemlist : List<Items> = Newslist.items
-
-                    prepareadapter(itemlist)
+                    if(itemlist.size > 0) {
+                        prepareadapter(itemlist)
+                    }
                 }else{
                     Toast.makeText(context,"Technical Error",Toast.LENGTH_LONG).show()
                 }
@@ -89,14 +100,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun prepareadapter(itemlist: List<Items>) {
 
-        val obj_adapter = NewsViewAdapter(this,itemlist)
+        val newsadapter = NewsViewAdapter(this,itemlist)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
-        recyclerView.adapter = obj_adapter
+        recyclerView.adapter = newsadapter
     }
 
-
+//      func to check internet connection
         fun checkConnection(context: Context): Boolean {
             val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
             return cm.activeNetworkInfo != null

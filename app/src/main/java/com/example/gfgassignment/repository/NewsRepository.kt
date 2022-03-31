@@ -1,5 +1,6 @@
 package com.example.gfgassignment.repository
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.gfgassignment.api.ApiInterface
 import com.example.gfgassignment.api.RetrofitHelper
@@ -11,7 +12,11 @@ import java.util.*
 
 object NewsRepository{
 
+
     val newslivedata = MutableLiveData<Newslist>()
+
+
+//    func to get response from api using retrofit using call method
 
     fun getnewsData() : MutableLiveData<Newslist>{
         val call = RetrofitHelper.getretrofit()
@@ -19,7 +24,7 @@ object NewsRepository{
 
         call.enqueue(object: Callback<Newslist> {
             override fun onFailure(call: Call<Newslist>, t: Throwable) {
-                // TODO("Not yet implemented")
+                Log.e("onFailure","api failed" )
             }
 
             override fun onResponse(call: Call<Newslist>, response: Response<Newslist>) {

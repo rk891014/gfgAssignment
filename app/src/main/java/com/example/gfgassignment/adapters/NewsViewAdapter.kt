@@ -19,55 +19,65 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class NewsViewAdapter(var c: Context, var itemlist: List<Items>)
-    : RecyclerView.Adapter<NewsViewAdapter.encloserViewHolder>() {
+    : RecyclerView.Adapter<NewsViewAdapter.newsViewHolder>() {
 
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): encloserViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): newsViewHolder {
 
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.news_view_details,parent,false);
-
-
-
-        return encloserViewHolder(view);
+        
+        return newsViewHolder(view);
     }
 
 
-    override fun onBindViewHolder(holder: encloserViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: newsViewHolder, position: Int) {
         val item = itemlist.get(position)
 
         if(position==0) {
             holder.enclosercardview.isVisible = true
             holder.simplecardview.isVisible = false
-            val url: String = item.enclosure.link.replace("&amp;", "&")
-            Glide.with(c)
-                .load(url)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_foreground)
-                .into(holder.articleImage);
-            holder.articledate.text = convertedDate(item.pubDate)
-            holder.articletime.text = convertedTime(item.pubDate)
-            holder.articleTitle.text = item.title
+            if(item.enclosure != null && item.enclosure.link != null) {
+                val url: String = item.enclosure.link.replace("&amp;", "&")
+                Glide.with(c)
+                    .load(url)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.articleImage)
+            }
+            if(item.pubDate!= null) {
+                holder.articledate.text = convertedDate(item.pubDate)
+                holder.articletime.text = convertedTime(item.pubDate)
+            }
+            if(item.title != null) {
+                holder.articleTitle.text = item.title
+            }
         }else{
             holder.enclosercardview.isVisible = false
             holder.simplecardview.isVisible = true
-            val url: String = item.thumbnail.replace("&amp;","&")
-            Glide.with(c)
-                .load(url)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_foreground)
-                .into(holder.articleImage2);
-
-            holder.articledate2.text = convertedDate(item.pubDate)
-            holder.articletime2.text = convertedTime(item.pubDate)
-            holder.articleTitle2.text = item.title
+            if(item.thumbnail != null) {
+                val url: String = item.thumbnail.replace("&amp;", "&")
+                Glide.with(c)
+                    .load(url)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.articleImage2);
+            }
+            if(item.pubDate!= null) {
+                holder.articledate2.text = convertedDate(item.pubDate)
+                holder.articletime2.text = convertedTime(item.pubDate)
+            }
+            if(item.title != null) {
+                holder.articleTitle2.text = item.title
+            }
 
         }
         holder.setIsRecyclable(false)
     }
 
+//    func to convert time to required time format
     private fun convertedTime(dateandtime: String): CharSequence? {
 
         val time : String = dateandtime.split("\\s".toRegex())[1];
@@ -88,8 +98,8 @@ class NewsViewAdapter(var c: Context, var itemlist: List<Items>)
     private fun convertedDate(dateandtime: String): CharSequence? {
         val date : String = dateandtime.split("\\s".toRegex())[0];
         try {
-            var parsedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-            var dtf = DateTimeFormatter.ofPattern("MMM dd, uuuu", Locale.ENGLISH);
+            val parsedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val dtf = DateTimeFormatter.ofPattern("MMM dd, uuuu", Locale.ENGLISH);
 
             return dtf.format(parsedDate)
         }catch (e: ParseException) {
@@ -98,7 +108,7 @@ class NewsViewAdapter(var c: Context, var itemlist: List<Items>)
         return ""
     }
 
-    class encloserViewHolder(view : View) : RecyclerView.ViewHolder(view){
+    class newsViewHolder(view : View) : RecyclerView.ViewHolder(view){
         val enclosercardview = view.findViewById<CardView>(R.id.enclosercardview);
         val articleTitle = view.findViewById<TextView>(R.id.articleTitle);
         val articledate = view.findViewById<TextView>(R.id.articledate);

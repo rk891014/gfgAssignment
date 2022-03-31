@@ -8,6 +8,8 @@ import com.example.gfgassignment.repository.NewsRepository
 
 class MainViewModel : ViewModel(){
 
+//    mutablelivedata(newslivedata) for storing data from repository
+
     var newsLiveData : MutableLiveData<Newslist>? = null
 
     fun getNews() : LiveData<Newslist>? {
