@@ -26,7 +26,6 @@ import android.net.ConnectivityManager
 class MainActivity : AppCompatActivity() {
     lateinit var context : Context
     lateinit var mainviewmodel : MainViewModel
-    var refreshdata : Boolean = true;
     lateinit var mainprogressBar : ProgressBar
     lateinit var recyclerView : RecyclerView
 
@@ -60,8 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         itemsswipetorefresh.setOnRefreshListener {
             if(checkConnection(context)){
-                refreshdata = true;
-                loaddata()
+                mainviewmodel.getNews()
                 Toast.makeText(context, "Page Refreshed Successfully", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show()
@@ -79,8 +77,6 @@ class MainActivity : AppCompatActivity() {
 
 //     observing data change from viewmodel
         mainviewmodel.getNews()!!.observe(this, Observer { Newslist ->
-
-            if(refreshdata){
                 mainprogressBar.isVisible = false
 
                 if(Newslist.status == "ok"){
@@ -91,9 +87,7 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     Toast.makeText(context,"Technical Error",Toast.LENGTH_SHORT).show()
                 }
-                refreshdata = false
 
-            }
 
         })
     }
